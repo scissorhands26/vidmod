@@ -69,7 +69,7 @@ export default async function convert(
       "libvorbis",
       output,
     ];
-  else ffmpeg_cmd = ["-i", input, output];
+  else ffmpeg_cmd = ["-threads", "4", "-i", input, output];
 
   // execute cmd
   await ffmpeg.exec(ffmpeg_cmd);

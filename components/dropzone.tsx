@@ -433,49 +433,64 @@ export default function Dropzone() {
   }
 
   return (
-    <ReactDropzone
-      onDrop={handleUpload}
-      onDragEnter={handleHover}
-      onDragLeave={handleExitHover}
-      accept={accepted_files}
-      onDropRejected={() => {
-        handleExitHover();
-        toast("Error uploading your file(s)");
-      }}
-      onError={() => {
-        handleExitHover();
-        toast("Error uploading your file(s)");
-      }}
-    >
-      {({ getRootProps, getInputProps }: any) => (
-        <div
-          {...getRootProps()}
-          className=" bg-background h-72 lg:h-80 xl:h-96 rounded-3xl shadow-sm border-secondary border-2 border-dashed cursor-pointer flex items-center justify-center"
+    <div>
+      {is_loaded ? (
+        <ReactDropzone
+          onDrop={handleUpload}
+          onDragEnter={handleHover}
+          onDragLeave={handleExitHover}
+          accept={accepted_files}
+          onDropRejected={() => {
+            handleExitHover();
+            toast("Error uploading your file(s)");
+          }}
+          onError={() => {
+            handleExitHover();
+            toast("Error uploading your file(s)");
+          }}
         >
-          <input {...getInputProps()} />
+          {({ getRootProps, getInputProps }: any) => (
+            <div
+              {...getRootProps()}
+              className=" bg-background h-72 lg:h-80 xl:h-96 rounded-3xl shadow-sm border-secondary border-2 border-dashed cursor-pointer flex items-center justify-center"
+            >
+              <input {...getInputProps()} />
+              <div className="space-y-4 text-foreground">
+                {is_hover ? (
+                  <>
+                    <div className="justify-center flex text-6xl">
+                      <LuFileSymlink />
+                    </div>
+                    <h3 className="text-center font-medium text-2xl">
+                      Yes, right there
+                    </h3>
+                  </>
+                ) : (
+                  <>
+                    <div className="justify-center flex text-6xl">
+                      <FiUploadCloud />
+                    </div>
+                    <h3 className="text-center font-medium text-2xl">
+                      Click, or drop your files here
+                    </h3>
+                  </>
+                )}
+              </div>
+            </div>
+          )}
+        </ReactDropzone>
+      ) : (
+        <div className="h-72 lg:h-80 xl:h-96 rounded-3xl shadow-sm border-secondary border-2 border-dashed cursor-not-allowed flex items-center justify-center">
           <div className="space-y-4 text-foreground">
-            {is_hover ? (
-              <>
-                <div className="justify-center flex text-6xl">
-                  <LuFileSymlink />
-                </div>
-                <h3 className="text-center font-medium text-2xl">
-                  Yes, right there
-                </h3>
-              </>
-            ) : (
-              <>
-                <div className="justify-center flex text-6xl">
-                  <FiUploadCloud />
-                </div>
-                <h3 className="text-center font-medium text-2xl">
-                  Click, or drop your files here
-                </h3>
-              </>
-            )}
+            <div className="justify-center flex text-6xl">
+              <FiUploadCloud />
+            </div>
+            <h3 className="text-center font-medium text-2xl">
+              Loading FFMPEG...
+            </h3>
           </div>
         </div>
       )}
-    </ReactDropzone>
+    </div>
   );
 }

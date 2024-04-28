@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   swcMinify: true,
+
   async headers() {
     return [
       {
@@ -8,21 +9,19 @@ const nextConfig = {
         source: "/:path*",
         headers: [
           {
-            key: "Access-Control-Allow-Origin",
-            value: "*", // Set your origin
+            key: "Cross-Origin-Embedder-Policy",
+            value: "require-corp",
           },
           {
             key: "Cross-Origin-Opener-Policy",
             value: "same-origin",
           },
-          {
-            key: "Cross-Origin-Embedder-Policy",
-            value: "require-corp",
-          },
         ],
       },
     ];
   },
+  experimental: {
+    optimizePackageImports: ["@ffmpeg/ffmpeg", "@ffmpeg/util"],
+  },
 };
-
 module.exports = nextConfig;
