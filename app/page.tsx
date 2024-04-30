@@ -1,5 +1,5 @@
 import { BackgroundGradient } from "@/components/BackgroundGradient";
-import { Dropzone } from "@/components/Dropzone";
+import { Dropzone } from "@/components/Dropzone2";
 import { HoverCard } from "@/components/HoverCard";
 import SignUpForAlertsForm from "@/components/SignUpForAlertsForm";
 
