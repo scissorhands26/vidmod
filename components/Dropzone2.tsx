@@ -97,6 +97,10 @@ export function Dropzone() {
     "audio/*": [],
     "video/*": [],
   };
+  const [conversionProgress, setConversionProgress] = useState<
+    number | undefined
+  >();
+  const [logMsg, setLogMsg] = useState();
 
   // functions
   function reset() {
@@ -158,6 +162,22 @@ export function Dropzone() {
           "as",
           output
         );
+
+        let postBody = {
+          fileName: action.file_name,
+          size: bytesToSize(action.file_size),
+          action: action,
+        };
+
+        const response = await fetch("/api/convert", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(postBody),
+        });
+
+        console.log(postBody);
       } catch (err) {
         tmp_actions = tmp_actions.map((elt) =>
           elt === action
@@ -215,7 +235,6 @@ export function Dropzone() {
             to,
           };
         }
-
         return action;
       })
     );
@@ -246,10 +265,6 @@ export function Dropzone() {
   useEffect(() => {
     load();
   }, []);
-
-  const [conversionProgress, setConversionProgress] = useState<
-    number | undefined
-  >();
 
   async function load() {
     const ffmpeg_response: FFmpeg = await loadFfmpeg(setConversionProgress);

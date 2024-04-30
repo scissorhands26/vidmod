@@ -2,20 +2,9 @@
 import { FFmpeg } from "@ffmpeg/ffmpeg";
 import { toBlobURL } from "@ffmpeg/util";
 
-export default async function loadFfmpeg(setAsdf: any): Promise<FFmpeg> {
+export default async function loadFfmpeg(setProgress: any): Promise<FFmpeg> {
   // chack browser and console log
   console.log("loadFfmpeg");
-  console.log(navigator.userAgent);
-
-  const userInfo = {
-    userAgent: navigator.userAgent,
-    platform: navigator.platform,
-    language: navigator.language,
-    languages: navigator.languages,
-    hardwareConcurrency: navigator.hardwareConcurrency,
-    cookieEnabled: navigator.cookieEnabled,
-    doNotTrack: navigator.doNotTrack,
-  };
 
   const ffmpeg = new FFmpeg();
 
@@ -25,7 +14,7 @@ export default async function loadFfmpeg(setAsdf: any): Promise<FFmpeg> {
 
   ffmpeg.on("progress", ({ progress, time }) => {
     console.log("Progress:", progress * 100, "Time:", time);
-    setAsdf(progress * 100);
+    setProgress(progress * 100);
   });
 
   // if firefox, load with worker, else don't
