@@ -61,12 +61,16 @@ export default function SignUpForAlertsForm() {
         className="flex w-full max-w-sm items-center space-x-2"
       >
         <Input
+          className="bg-slate-950 text-white"
           type="email"
           placeholder="Email"
           value={email}
           onChange={handleEmailChange} // Set the onChange handler to update the state
         />
-        <Button type="submit" variant="secondary">
+        <Button
+          type="submit"
+          className="bg-slate-950 hover:bg-slate-800 active:bg-black"
+        >
           Subscribe
         </Button>
       </form>

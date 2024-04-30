@@ -40,21 +40,28 @@ export default function Home() {
       {/* How It Works Section */}
       <HoverCard items={steps} />
 
-      <BackgroundGradient className="rounded-[22px] p-4 sm:p-10 bg-zinc-900 text-neutral-200">
-        <p className="text-base sm:text-xl mt-4 mb-2 text-neutral-200">
+      <BackgroundGradient className="rounded-[22px] p-4 sm:p-10 bg-slate-900 text-neutral-200">
+        <h2 className="text-2xl sm:text-4xl mt-4 mb-2 text-neutral-200">
           Need Faster Video Conversions?
-        </p>
-        <p className="text-sm text-neutral-400">
-          Purchase Speed Tokens to accelerate your video processing times. Use
-          tokens to prioritize your conversions and experience faster results.
+        </h2>
+        <div className="border border-white my-4" />
+        <p className="text-lg text-neutral-200">
+          Get{" "}
+          <span className="relative inline-flex overflow-hidden rounded-lg p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50">
+            <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
+            <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-lg bg-slate-950 px-3 py-1 text-sm font-medium text-white backdrop-blur-3xl">
+              Mod Tokens
+            </span>
+          </span>{" "}
+          to accelerate your video processing times. Use tokens to prioritize
+          your conversions and experience faster results.
         </p>
         <p className="text-sm text-neutral-400 mt-2">
-          How it works: To boost conversion speeds, files are temporarily
-          uploaded to our high-performance servers. This method surpasses the
-          limitations of local hardware, providing you with quicker processing
-          times. Rest assured, your data remains secure with us; we prioritize
-          your privacy and employ stringent security measures to protect your
-          videos.
+          <span className="text-white text-lg underline">How it works:</span> To
+          boost conversion speeds, files are temporarily uploaded to our
+          high-performance servers. This method surpasses the limitations of
+          local hardware, providing you with quicker processing times. Your data
+          only lives on our servers until the conversion is complete.
         </p>
         <SignUpForAlertsForm />
       </BackgroundGradient>
