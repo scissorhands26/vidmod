@@ -68,7 +68,7 @@ const extensions = {
   audio: ["mp3", "wav", "ogg", "aac", "wma", "flac", "m4a"],
 };
 
-export default function Dropzone() {
+export function Dropzone() {
   // variables & hooks
   const [is_hover, setIsHover] = useState<boolean>(false);
   const [actions, setActions] = useState<Action[]>([]);
