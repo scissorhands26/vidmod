@@ -105,6 +105,7 @@ export function Dropzone() {
     setFiles([]);
     setIsReady(false);
     setIsConverting(false);
+    location.reload();
   }
 
   function downloadAll(): void {
@@ -246,10 +247,12 @@ export function Dropzone() {
     load();
   }, []);
 
-  const [asdf, setAsdf] = useState<number | undefined>();
+  const [conversionProgress, setConversionProgress] = useState<
+    number | undefined
+  >();
 
   async function load() {
-    const ffmpeg_response: FFmpeg = await loadFfmpeg(setAsdf);
+    const ffmpeg_response: FFmpeg = await loadFfmpeg(setConversionProgress);
     ffmpegRef.current = ffmpeg_response;
     setIsLoaded(true);
   }
@@ -291,8 +294,12 @@ export function Dropzone() {
                 <MdDone />
               </Badge>
             ) : action.is_converting ? (
-              <Badge variant="default" className="flex gap-2">
-                <span>Converting {asdf?.toFixed(2)}%</span>
+              <Badge
+                variant="converting"
+                className="flex gap-2"
+                conversionProgress={conversionProgress}
+              >
+                <span>Converting {conversionProgress?.toFixed(0)}%</span>
                 <span className="animate-spin">
                   <ImSpinner3 />
                 </span>
