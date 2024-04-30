@@ -261,20 +261,20 @@ export default function Dropzone() {
         {actions.map((action: Action, i: any) => (
           <div
             key={i}
-            className="w-full py-4 space-y-2 lg:py-0 relative cursor-pointer rounded-xl border h-fit lg:h-20 px-4 lg:px-10 flex flex-wrap lg:flex-nowrap items-center justify-between"
+            className="w-full py-4 space-y-2 lg:py-0 relative rounded-xl border h-fit lg:h-20 px-4 lg:px-10 flex flex-wrap lg:flex-nowrap items-center justify-between text-white"
           >
             {!is_loaded && (
               <Skeleton className="h-full w-full -ml-10 cursor-progress absolute rounded-xl" />
             )}
             <div className="flex gap-4 items-center">
-              <span className="text-2xl text-orange-600">
+              <span className="text-2xl text-white">
                 {fileToIcon(action.file_type)}
               </span>
               <div className="flex items-center gap-1 w-96">
                 <span className="text-md font-medium overflow-x-hidden">
                   {compressFileName(action.file_name)}
                 </span>
-                <span className="text-muted-foreground text-sm">
+                <span className="text-white text-sm">
                   ({bytesToSize(action.file_size)})
                 </span>
               </div>
@@ -298,7 +298,7 @@ export default function Dropzone() {
                 </span>
               </Badge>
             ) : (
-              <div className="text-muted-foreground text-md flex items-center gap-4">
+              <div className="text-white text-md flex items-center gap-4">
                 <span>Convert to</span>
                 <Select
                   onValueChange={(value) => {
@@ -312,10 +312,10 @@ export default function Dropzone() {
                   }}
                   value={selcted}
                 >
-                  <SelectTrigger className="w-32 outline-none focus:outline-none focus:ring-0 text-center text-muted-foreground bg-background text-md font-medium">
+                  <SelectTrigger className="w-32 outline-none focus:outline-none focus:ring-0 text-center text-white bg-slate-900 text-md font-medium">
                     <SelectValue placeholder="..." />
                   </SelectTrigger>
-                  <SelectContent className="h-fit">
+                  <SelectContent className="h-fit bg-slate-900 text-white">
                     {action.file_type.includes("image") && (
                       <div className="grid grid-cols-2 gap-2 w-fit">
                         {extensions.image.map((elt, i) => (
@@ -329,11 +329,17 @@ export default function Dropzone() {
                     )}
                     {action.file_type.includes("video") && (
                       <Tabs defaultValue={defaultValues} className="w-full">
-                        <TabsList className="w-full">
-                          <TabsTrigger value="video" className="w-full">
+                        <TabsList className="w-full bg-slate-800 text-white">
+                          <TabsTrigger
+                            value="video"
+                            className="w-full bg-slate-950 text-white"
+                          >
                             Video
                           </TabsTrigger>
-                          <TabsTrigger value="audio" className="w-full">
+                          <TabsTrigger
+                            value="audio"
+                            className="w-full bg-slate-950 text-white"
+                          >
                             Audio
                           </TabsTrigger>
                         </TabsList>
@@ -378,13 +384,16 @@ export default function Dropzone() {
             )}
 
             {action.is_converted ? (
-              <Button variant="outline" onClick={() => download(action)}>
-                Download
-              </Button>
+              <span
+                onClick={() => deleteAction(action)}
+                className="cursor-pointer hover:border hover:border-red-700 rounded-full h-10 w-10 flex items-center justify-center text-2xl text-red-700"
+              >
+                <MdClose />
+              </span>
             ) : (
               <span
                 onClick={() => deleteAction(action)}
-                className="cursor-pointer hover:bg-muted rounded-full h-10 w-10 flex items-center justify-center text-2xl text-foreground"
+                className="cursor-pointer hover:border hover:border-red-700 rounded-full h-10 w-10 flex items-center justify-center text-2xl text-red-700"
               >
                 <MdClose />
               </span>
@@ -393,10 +402,10 @@ export default function Dropzone() {
         ))}
         <div className="flex w-full justify-end">
           {is_done ? (
-            <div className="space-y-4 w-fit">
+            <div className="space-y-4 w-fit flex flex-col">
               <Button
                 size="lg"
-                className="rounded-xl font-semibold relative py-4 text-md flex gap-2 items-center w-full"
+                className="relative inline-flex h-12 overflow-hidden rounded-2xl p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50"
                 onClick={downloadAll}
               >
                 {actions.length > 1 ? "Download All" : "Download"}
@@ -406,7 +415,7 @@ export default function Dropzone() {
                 size="lg"
                 onClick={reset}
                 variant="outline"
-                className="rounded-xl"
+                className="relative inline-flex h-12 overflow-hidden rounded-2xl p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50"
               >
                 Convert Another File(s)
               </Button>
@@ -415,7 +424,7 @@ export default function Dropzone() {
             <Button
               size="lg"
               disabled={!is_ready || is_converting}
-              className="rounded-xl font-semibold relative py-4 text-md flex items-center w-44"
+              className="relative inline-flex h-12 min-w-12 overflow-hidden rounded-2xl p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50"
               onClick={convert}
             >
               {is_converting ? (
@@ -423,7 +432,12 @@ export default function Dropzone() {
                   <ImSpinner3 />
                 </span>
               ) : (
-                <span>Convert Now</span>
+                <div className="relative inline-flex h-12 overflow-hidden rounded-2xl p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50">
+                  <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
+                  <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-2xl bg-slate-950 px-3 py-1 text-sm font-medium text-white backdrop-blur-3xl">
+                    Convert Now
+                  </span>
+                </div>
               )}
             </Button>
           )}
@@ -433,64 +447,67 @@ export default function Dropzone() {
   }
 
   return (
-    <div>
-      {is_loaded ? (
-        <ReactDropzone
-          onDrop={handleUpload}
-          onDragEnter={handleHover}
-          onDragLeave={handleExitHover}
-          accept={accepted_files}
-          onDropRejected={() => {
-            handleExitHover();
-            toast("Error uploading your file(s)");
-          }}
-          onError={() => {
-            handleExitHover();
-            toast("Error uploading your file(s)");
-          }}
-        >
-          {({ getRootProps, getInputProps }: any) => (
-            <div
-              {...getRootProps()}
-              className=" bg-background h-72 lg:h-80 xl:h-96 rounded-3xl shadow-sm border-secondary border-2 border-dashed cursor-pointer flex items-center justify-center"
-            >
-              <input {...getInputProps()} />
-              <div className="space-y-4 text-foreground">
-                {is_hover ? (
-                  <>
-                    <div className="justify-center flex text-6xl">
-                      <LuFileSymlink />
-                    </div>
-                    <h3 className="text-center font-medium text-2xl">
-                      Yes, right there
-                    </h3>
-                  </>
-                ) : (
-                  <>
-                    <div className="justify-center flex text-6xl">
-                      <FiUploadCloud />
-                    </div>
-                    <h3 className="text-center font-medium text-2xl">
-                      Click, or drop your files here
-                    </h3>
-                  </>
-                )}
+    <div className="relative inline-flex overflow-hidden rounded-2xl p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 w-full">
+      <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
+      <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-2xl bg-slate-950 text-sm font-medium text-white backdrop-blur-3xl">
+        {is_loaded ? (
+          <ReactDropzone
+            onDrop={handleUpload}
+            onDragEnter={handleHover}
+            onDragLeave={handleExitHover}
+            accept={accepted_files}
+            onDropRejected={() => {
+              handleExitHover();
+              toast("Error uploading your file(s)");
+            }}
+            onError={() => {
+              handleExitHover();
+              toast("Error uploading your file(s)");
+            }}
+          >
+            {({ getRootProps, getInputProps }: any) => (
+              <div
+                {...getRootProps()}
+                className="rounded-2xl shadow-sm cursor-pointer flex items-center justify-center p-4 w-full"
+              >
+                <input {...getInputProps()} />
+                <div className="space-y-4 text-white">
+                  {is_hover ? (
+                    <>
+                      <div className="justify-center flex text-6xl">
+                        <LuFileSymlink />
+                      </div>
+                      <h3 className="text-center font-medium text-2xl">
+                        Yes, right there
+                      </h3>
+                    </>
+                  ) : (
+                    <>
+                      <div className="justify-center flex text-6xl">
+                        <FiUploadCloud />
+                      </div>
+                      <h3 className="text-center font-medium text-2xl">
+                        Click, or drop your files here
+                      </h3>
+                    </>
+                  )}
+                </div>
               </div>
+            )}
+          </ReactDropzone>
+        ) : (
+          <div className="rounded-2xl shadow-sm cursor-progress flex items-center justify-center p-4 w-full">
+            <div className="space-y-4 text-white">
+              <div className="justify-center flex text-6xl">
+                <FiUploadCloud />
+              </div>
+              <h3 className="text-center font-medium text-2xl">
+                Loading FFMPEG...
+              </h3>
             </div>
-          )}
-        </ReactDropzone>
-      ) : (
-        <div className="h-72 lg:h-80 xl:h-96 rounded-3xl shadow-sm border-secondary border-2 border-dashed cursor-not-allowed flex items-center justify-center">
-          <div className="space-y-4 text-foreground">
-            <div className="justify-center flex text-6xl">
-              <FiUploadCloud />
-            </div>
-            <h3 className="text-center font-medium text-2xl">
-              Loading FFMPEG...
-            </h3>
           </div>
-        </div>
-      )}
+        )}
+      </span>
     </div>
   );
 }

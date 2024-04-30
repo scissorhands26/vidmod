@@ -2,7 +2,6 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Navbar from "@/components/navbar";
-import GA from "@/components/GA";
 import { ThemeProvider } from "@/components/theme-provider";
 const inter = Inter({ subsets: ["latin"] });
 import { Toaster } from "@/components/ui/sonner";
@@ -25,12 +24,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      {/* <GA GA_MEASUREMENT_ID="G-52GQ441X7H" />
-      <meta
-        name="google-site-verification"
-        content="V8lmEvFOdYBlChgR6pYABBZBhI1EFnPb1YuxTTdHXMU"
-      /> */}
-      <body className={inter.className}>
+      <body className={`${inter.className} bg-slate-950`}>
         {/* <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -38,7 +32,6 @@ export default function RootLayout({
           themes={["light", "dark"]}
         > */}
         {/* <Navbar /> */}
-        <Toaster />
         <div className="pt-32 min-h-screen lg:pt-36 2xl:pt-44 container max-w-4xl lg:max-w-6xl 2xl:max-w-7xl">
           {children}
         </div>
