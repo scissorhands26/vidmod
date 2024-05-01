@@ -37,6 +37,10 @@ export default function Home() {
       {/* Upload Box */}
       <Dropzone />
 
+      <p className="text-white items-center justify-center flex">
+        *Works best on FireFox.
+      </p>
+
       {/* How It Works Section */}
       <HoverCard items={steps} />
 
