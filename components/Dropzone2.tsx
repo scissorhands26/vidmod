@@ -31,6 +31,7 @@ import loadFfmpeg from "@/utils/load-ffmpeg";
 import type { Action } from "@/types";
 import { FFmpeg } from "@ffmpeg/ffmpeg";
 import { toast } from "sonner";
+import { v4 as uuidv4 } from "uuid";
 
 const extensions = {
   image: [
@@ -79,28 +80,16 @@ export function Dropzone() {
   const [is_done, setIsDone] = useState<boolean>(false);
   const ffmpegRef = useRef<any>(null);
   const [defaultValues, setDefaultValues] = useState<string>("video");
-  const [selcted, setSelected] = useState<string>("...");
-  const accepted_files = {
-    "image/*": [
-      ".jpg",
-      ".jpeg",
-      ".png",
-      ".gif",
-      ".bmp",
-      ".webp",
-      ".ico",
-      ".tif",
-      ".tiff",
-      ".raw",
-      ".tga",
-    ],
-    "audio/*": [],
-    "video/*": [],
-  };
   const [conversionProgress, setConversionProgress] = useState<
     number | undefined
   >();
   const [logMsg, setLogMsg] = useState();
+
+  const accepted_files = [
+    ...extensions.image.map((elt) => `image/${elt}`),
+    ...extensions.video.map((elt) => `video/${elt}`),
+    ...extensions.audio.map((elt) => `audio/${elt}`),
+  ];
 
   // functions
   function reset() {
@@ -139,61 +128,54 @@ export function Dropzone() {
     }));
     setActions(tmp_actions);
     setIsConverting(true);
-    for (let action of tmp_actions) {
-      try {
+
+    try {
+      const conversionPromises = tmp_actions.map(async (action) => {
         const { url, output } = await convertFile(ffmpegRef.current, action);
-        tmp_actions = tmp_actions.map((elt) =>
-          elt === action
-            ? {
-                ...elt,
-                is_converted: true,
-                is_converting: false,
-                url,
-                output,
-              }
-            : elt
-        );
-        setActions(tmp_actions);
-        console.log(
-          "Converted",
-          action.file_name,
-          "to",
-          action.to,
-          "as",
-          output
-        );
-
-        let postBody = {
-          fileName: action.file_name,
-          size: bytesToSize(action.file_size),
-          action: action,
+        return {
+          ...action,
+          is_converted: true,
+          is_converting: false,
+          url,
+          output,
         };
+      });
 
-        const response = await fetch("/api/convert", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(postBody),
-        });
+      const results = await Promise.all(conversionPromises);
 
-        console.log(postBody);
-      } catch (err) {
-        tmp_actions = tmp_actions.map((elt) =>
-          elt === action
-            ? {
-                ...elt,
-                is_converted: false,
-                is_converting: false,
-                is_error: true,
-              }
-            : elt
-        );
-        setActions(tmp_actions);
-      }
+      setActions(results);
+
+      results.forEach((action) => {
+        if (!action.is_error) {
+          let postBody = {
+            fileName: action.file_name,
+            size: bytesToSize(action.file_size),
+            action: action,
+          };
+
+          fetch("/api/convert", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(postBody),
+          }).then((response) => console.log(postBody));
+        }
+      });
+
+      setIsDone(true);
+      setIsConverting(false);
+    } catch (err) {
+      tmp_actions = tmp_actions.map((elt) => ({
+        ...elt,
+        is_converted: false,
+        is_converting: false,
+        is_error: true,
+      }));
+      setActions(tmp_actions);
+      setIsDone(true);
+      setIsConverting(false);
     }
-    setIsDone(true);
-    setIsConverting(false);
   }
 
   function handleUpload(data: Array<any>): void {
@@ -203,6 +185,7 @@ export function Dropzone() {
     data.forEach((file: any) => {
       const formData = new FormData();
       tmp.push({
+        id: uuidv4(), // Add unique ID to each action
         file_name: file.name,
         file_size: file.size,
         from: file.name.slice(((file.name.lastIndexOf(".") - 1) >>> 0) + 2),
@@ -225,10 +208,10 @@ export function Dropzone() {
     return setIsHover(false);
   }
 
-  function updateAction(file_name: String, to: String) {
+  function updateAction(id: string, to: string) {
     setActions(
       actions.map((action): Action => {
-        if (action.file_name === file_name) {
+        if (action.id === id) {
           console.log("FOUND");
           return {
             ...action,
@@ -249,7 +232,7 @@ export function Dropzone() {
   }
 
   function deleteAction(action: Action): void {
-    setActions(actions.filter((elt) => elt !== action));
+    setActions(actions.filter((elt) => elt.id !== action.id));
     setFiles(files.filter((elt) => elt.name !== action.file_name));
   }
 
@@ -329,10 +312,9 @@ export function Dropzone() {
                     } else if (extensions.video.includes(value)) {
                       setDefaultValues("video");
                     }
-                    setSelected(value);
-                    updateAction(action.file_name, value);
+                    updateAction(action.id, value); // Update specific action using its ID
                   }}
-                  value={selcted}
+                  value={action.to ?? "..."}
                 >
                   <SelectTrigger className="w-32 outline-none focus:outline-none focus:ring-0 text-center text-white bg-slate-900 text-md font-medium">
                     <SelectValue placeholder="..." />
@@ -427,17 +409,17 @@ export function Dropzone() {
             <div className="space-y-4 w-fit flex flex-col">
               <Button
                 size="lg"
-                className="relative inline-flex h-12 overflow-hidden rounded-2xl p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50"
+                className="relative inline-flex h-12 overflow-hidden rounded-2xl p-2 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50"
                 onClick={downloadAll}
               >
                 {actions.length > 1 ? "Download All" : "Download"}
-                <HiOutlineDownload />
+                <HiOutlineDownload className="ml-1" />
               </Button>
               <Button
                 size="lg"
                 onClick={reset}
                 variant="outline"
-                className="relative inline-flex h-12 overflow-hidden rounded-2xl p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50"
+                className="relative inline-flex h-12 overflow-hidden rounded-2xl p-2 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50"
               >
                 Convert Another File(s)
               </Button>
