@@ -8,7 +8,7 @@ import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: "VidMod - Free Unlimited File Converter",
-  description: `Unleash your creativity with Modifio – the ultimate online tool for
+  description: `Unleash your creativity with VidMod – the ultimate online tool for
   unlimited and free multimedia conversion. Transform images, audio, and
   videos effortlessly, without restrictions. Start converting now and
   elevate your content like never before!`,
