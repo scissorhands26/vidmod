@@ -29,7 +29,7 @@ export default function Home() {
     <div className="space-y-8">
       {/* Title + Desc */}
       <div>
-        <h1 className="text-3xl md:text-5xl font-medium text-center text-neutral-200">
+        <h1 className="text-center text-3xl font-medium text-neutral-200 md:text-5xl">
           VidMod.io
         </h1>
       </div>
@@ -37,18 +37,18 @@ export default function Home() {
       {/* Upload Box */}
       <Dropzone />
 
-      <p className="text-white items-center justify-center flex">
+      <p className="flex items-center justify-center text-white">
         *Works best on FireFox.
       </p>
 
       {/* How It Works Section */}
       <HoverCard items={steps} />
 
-      <BackgroundGradient className="rounded-[22px] p-4 sm:p-10 bg-slate-900 text-neutral-200">
-        <h2 className="text-2xl sm:text-4xl mt-4 mb-2 text-neutral-200">
+      <BackgroundGradient className="rounded-[22px] bg-slate-900 p-4 text-neutral-200 sm:p-10">
+        <h2 className="mb-2 mt-4 text-2xl text-neutral-200 sm:text-4xl">
           Need Faster Video Conversions?
         </h2>
-        <div className="border border-white my-4" />
+        <div className="my-4 border border-white" />
         <p className="text-lg text-neutral-200">
           Get{" "}
           <span className="relative inline-flex overflow-hidden rounded-lg p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50">
@@ -60,8 +60,8 @@ export default function Home() {
           to accelerate your video processing times. Use tokens to prioritize
           your conversions and experience faster results.
         </p>
-        <p className="text-sm text-neutral-400 mt-2">
-          <span className="text-white text-lg underline">How it works:</span> To
+        <p className="mt-2 text-sm text-neutral-400">
+          <span className="text-lg text-white underline">How it works:</span> To
           boost conversion speeds, files are temporarily uploaded to our
           high-performance servers. This method surpasses the limitations of
           local hardware, providing you with quicker processing times. Your data

@@ -280,7 +280,7 @@ export function Dropzone() {
                 <span className="text-md overflow-x-hidden font-medium">
                   {compressFileName(action.file_name)}
                 </span>
-                <span className="text-sm text-white">
+                <span className="items-center justify-center text-center text-sm text-gray-400">
                   ({bytesToSize(action.file_size)})
                 </span>
               </div>
