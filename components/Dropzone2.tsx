@@ -267,12 +267,12 @@ export function Dropzone() {
         {actions.map((action: Action, i: any) => (
           <div
             key={i}
-            className="relative flex h-fit w-full flex-wrap items-center justify-between space-y-2 rounded-xl border px-4 py-4 text-white lg:h-20 lg:flex-nowrap lg:px-10 lg:py-0"
+            className="relative grid h-fit w-full grid-cols-4 flex-wrap items-center justify-between space-y-2 rounded-xl border px-4 py-4 text-white lg:h-20 lg:grid-cols-5 lg:flex-nowrap lg:px-10 lg:py-0"
           >
             {!is_loaded && (
               <Skeleton className="absolute -ml-10 h-full w-full cursor-progress rounded-xl" />
             )}
-            <div className="flex items-center gap-4">
+            <div className="col-span-4 flex items-center gap-4 lg:col-span-2">
               <span className="text-2xl text-white">
                 {fileToIcon(action.file_type)}
               </span>
@@ -285,7 +285,6 @@ export function Dropzone() {
                 </span>
               </div>
             </div>
-
             {action.is_error ? (
               <Badge variant="destructive" className="flex gap-2">
                 <span>Error Converting File</span>
@@ -308,7 +307,7 @@ export function Dropzone() {
                 </span>
               </Badge>
             ) : (
-              <div className="text-md flex items-center gap-4 text-white">
+              <div className="text-md col-span-2 flex items-center gap-4 text-white lg:col-span-1">
                 <span>Convert to</span>
                 <Select
                   onValueChange={(value) => {
@@ -392,32 +391,32 @@ export function Dropzone() {
                     )}
                   </SelectContent>
                 </Select>
-                {i === 0 && actions.length > 1 && (
-                  <Button
-                    className="ml-4 flex items-center"
-                    onClick={applyToAll}
-                  >
-                    Apply to all
-                  </Button>
-                )}
               </div>
             )}
-
-            {action.is_converted ? (
-              <span
-                onClick={() => deleteAction(action)}
-                className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full text-2xl text-red-700 hover:border hover:border-red-700"
-              >
-                <MdClose />
-              </span>
-            ) : (
-              <span
-                onClick={() => deleteAction(action)}
-                className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full text-2xl text-red-700 hover:border hover:border-red-700"
-              >
-                <MdClose />
-              </span>
-            )}
+            <div>
+              {i === 0 && actions.length > 1 && (
+                <Button className="ml-4 flex items-center" onClick={applyToAll}>
+                  Apply to all
+                </Button>
+              )}
+            </div>
+            <div className="relative">
+              {action.is_converted ? (
+                <span
+                  onClick={() => deleteAction(action)}
+                  className="absolute right-0 top-1/2 flex h-10 w-10 -translate-y-1/2 transform cursor-pointer justify-end rounded-full text-2xl text-red-700 hover:border hover:border-red-700"
+                >
+                  <MdClose />
+                </span>
+              ) : (
+                <span
+                  onClick={() => deleteAction(action)}
+                  className="absolute right-0 top-1/2 flex h-10 w-10 -translate-y-1/2 transform cursor-pointer items-center justify-center rounded-full text-2xl text-red-700 hover:border hover:border-red-700"
+                >
+                  <MdClose />
+                </span>
+              )}
+            </div>{" "}
           </div>
         ))}
         <div className="flex w-full justify-end">
