@@ -84,6 +84,7 @@ export function Dropzone() {
     number | undefined
   >();
   const [logMsg, setLogMsg] = useState();
+  const [applyToAllType, setApplyToAllType] = useState<string>("");
 
   const accepted_files = [
     ...extensions.image.map((elt) => `image/${elt}`),
@@ -223,6 +224,10 @@ export function Dropzone() {
     );
   }
 
+  function applyToAll() {
+    setActions(actions.map((action) => ({ ...action, to: applyToAllType })));
+  }
+
   function checkIsReady(): void {
     let tmp_is_ready = true;
     actions.forEach((action: Action) => {
@@ -313,6 +318,9 @@ export function Dropzone() {
                       setDefaultValues("video");
                     }
                     updateAction(action.id, value); // Update specific action using its ID
+                    if (i === 0 && actions.length > 1) {
+                      setApplyToAllType(value);
+                    }
                   }}
                   value={action.to ?? "..."}
                 >
@@ -384,6 +392,14 @@ export function Dropzone() {
                     )}
                   </SelectContent>
                 </Select>
+                {i === 0 && actions.length > 1 && (
+                  <Button
+                    className="flex items-center ml-4"
+                    onClick={applyToAll}
+                  >
+                    Apply to all
+                  </Button>
+                )}
               </div>
             )}
 
