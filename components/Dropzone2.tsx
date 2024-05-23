@@ -220,7 +220,7 @@ export function Dropzone() {
           };
         }
         return action;
-      })
+      }),
     );
   }
 
@@ -267,20 +267,20 @@ export function Dropzone() {
         {actions.map((action: Action, i: any) => (
           <div
             key={i}
-            className="w-full py-4 space-y-2 lg:py-0 relative rounded-xl border h-fit lg:h-20 px-4 lg:px-10 flex flex-wrap lg:flex-nowrap items-center justify-between text-white"
+            className="relative flex h-fit w-full flex-wrap items-center justify-between space-y-2 rounded-xl border px-4 py-4 text-white lg:h-20 lg:flex-nowrap lg:px-10 lg:py-0"
           >
             {!is_loaded && (
-              <Skeleton className="h-full w-full -ml-10 cursor-progress absolute rounded-xl" />
+              <Skeleton className="absolute -ml-10 h-full w-full cursor-progress rounded-xl" />
             )}
-            <div className="flex gap-4 items-center">
+            <div className="flex items-center gap-4">
               <span className="text-2xl text-white">
                 {fileToIcon(action.file_type)}
               </span>
-              <div className="flex items-center gap-1 w-96">
-                <span className="text-md font-medium overflow-x-hidden">
+              <div className="flex w-96 items-center gap-1">
+                <span className="text-md overflow-x-hidden font-medium">
                   {compressFileName(action.file_name)}
                 </span>
-                <span className="text-white text-sm">
+                <span className="text-sm text-white">
                   ({bytesToSize(action.file_size)})
                 </span>
               </div>
@@ -308,7 +308,7 @@ export function Dropzone() {
                 </span>
               </Badge>
             ) : (
-              <div className="text-white text-md flex items-center gap-4">
+              <div className="text-md flex items-center gap-4 text-white">
                 <span>Convert to</span>
                 <Select
                   onValueChange={(value) => {
@@ -324,12 +324,12 @@ export function Dropzone() {
                   }}
                   value={action.to ?? "..."}
                 >
-                  <SelectTrigger className="w-32 outline-none focus:outline-none focus:ring-0 text-center text-white bg-slate-900 text-md font-medium">
+                  <SelectTrigger className="text-md w-32 bg-slate-900 text-center font-medium text-white outline-none focus:outline-none focus:ring-0">
                     <SelectValue placeholder="..." />
                   </SelectTrigger>
                   <SelectContent className="h-fit bg-slate-900 text-white">
                     {action.file_type.includes("image") && (
-                      <div className="grid grid-cols-2 gap-2 w-fit">
+                      <div className="grid w-fit grid-cols-2 gap-2">
                         {extensions.image.map((elt, i) => (
                           <div key={i} className="col-span-1 text-center">
                             <SelectItem value={elt} className="mx-auto">
@@ -356,7 +356,7 @@ export function Dropzone() {
                           </TabsTrigger>
                         </TabsList>
                         <TabsContent value="video">
-                          <div className="grid grid-cols-3 gap-2 w-fit">
+                          <div className="grid w-fit grid-cols-3 gap-2">
                             {extensions.video.map((elt, i) => (
                               <div key={i} className="col-span-1 text-center">
                                 <SelectItem value={elt} className="mx-auto">
@@ -367,7 +367,7 @@ export function Dropzone() {
                           </div>
                         </TabsContent>
                         <TabsContent value="audio">
-                          <div className="grid grid-cols-3 gap-2 w-fit">
+                          <div className="grid w-fit grid-cols-3 gap-2">
                             {extensions.audio.map((elt, i) => (
                               <div key={i} className="col-span-1 text-center">
                                 <SelectItem value={elt} className="mx-auto">
@@ -380,7 +380,7 @@ export function Dropzone() {
                       </Tabs>
                     )}
                     {action.file_type.includes("audio") && (
-                      <div className="grid grid-cols-2 gap-2 w-fit">
+                      <div className="grid w-fit grid-cols-2 gap-2">
                         {extensions.audio.map((elt, i) => (
                           <div key={i} className="col-span-1 text-center">
                             <SelectItem value={elt} className="mx-auto">
@@ -394,7 +394,7 @@ export function Dropzone() {
                 </Select>
                 {i === 0 && actions.length > 1 && (
                   <Button
-                    className="flex items-center ml-4"
+                    className="ml-4 flex items-center"
                     onClick={applyToAll}
                   >
                     Apply to all
@@ -406,14 +406,14 @@ export function Dropzone() {
             {action.is_converted ? (
               <span
                 onClick={() => deleteAction(action)}
-                className="cursor-pointer hover:border hover:border-red-700 rounded-full h-10 w-10 flex items-center justify-center text-2xl text-red-700"
+                className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full text-2xl text-red-700 hover:border hover:border-red-700"
               >
                 <MdClose />
               </span>
             ) : (
               <span
                 onClick={() => deleteAction(action)}
-                className="cursor-pointer hover:border hover:border-red-700 rounded-full h-10 w-10 flex items-center justify-center text-2xl text-red-700"
+                className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full text-2xl text-red-700 hover:border hover:border-red-700"
               >
                 <MdClose />
               </span>
@@ -422,7 +422,7 @@ export function Dropzone() {
         ))}
         <div className="flex w-full justify-end">
           {is_done ? (
-            <div className="space-y-4 w-fit flex flex-col">
+            <div className="flex w-fit flex-col space-y-4">
               <Button
                 size="lg"
                 className="relative inline-flex h-12 overflow-hidden rounded-2xl p-2 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50"
@@ -467,9 +467,9 @@ export function Dropzone() {
   }
 
   return (
-    <div className="relative inline-flex overflow-hidden rounded-2xl p-2 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 w-full">
+    <div className="relative inline-flex w-full overflow-hidden rounded-2xl p-2 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50">
       <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
-      <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-xl bg-black text-sm font-medium text-white backdrop-blur-3xl py-10">
+      <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-xl bg-black py-10 text-sm font-medium text-white backdrop-blur-3xl">
         {is_loaded ? (
           <ReactDropzone
             onDrop={handleUpload}
@@ -488,25 +488,25 @@ export function Dropzone() {
             {({ getRootProps, getInputProps }: any) => (
               <div
                 {...getRootProps()}
-                className="rounded-2xl shadow-sm cursor-pointer flex items-center justify-center p-4 w-full"
+                className="flex w-full cursor-pointer items-center justify-center rounded-2xl p-4 shadow-sm"
               >
                 <input {...getInputProps()} />
                 <div className="space-y-4 text-white">
                   {is_hover ? (
                     <>
-                      <div className="justify-center flex text-6xl">
+                      <div className="flex justify-center text-6xl">
                         <LuFileSymlink />
                       </div>
-                      <h3 className="text-center font-medium text-2xl">
+                      <h3 className="text-center text-2xl font-medium">
                         Yes, right there
                       </h3>
                     </>
                   ) : (
                     <>
-                      <div className="justify-center flex text-6xl">
+                      <div className="flex justify-center text-6xl">
                         <FiUploadCloud />
                       </div>
-                      <h3 className="text-center font-medium text-2xl">
+                      <h3 className="text-center text-2xl font-medium">
                         Click, or drop your files here
                       </h3>
                     </>
@@ -516,12 +516,12 @@ export function Dropzone() {
             )}
           </ReactDropzone>
         ) : (
-          <div className="rounded-2xl shadow-sm cursor-progress flex items-center justify-center p-4 w-full">
+          <div className="flex w-full cursor-progress items-center justify-center rounded-2xl p-4 shadow-sm">
             <div className="space-y-4 text-white">
-              <div className="justify-center flex text-6xl">
+              <div className="flex justify-center text-6xl">
                 <FiUploadCloud />
               </div>
-              <h3 className="text-center font-medium text-2xl">
+              <h3 className="text-center text-2xl font-medium">
                 Loading FFMpeg...
               </h3>
             </div>

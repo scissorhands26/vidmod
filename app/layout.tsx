@@ -7,14 +7,48 @@ const inter = Inter({ subsets: ["latin"] });
 import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
-  title: "VidMod - Free Unlimited File Converter",
-  description: `Unleash your creativity with VidMod – the ultimate online tool for
-  unlimited and free multimedia conversion. Transform images, audio, and
-  videos effortlessly, without restrictions. Start converting now and
-  elevate your content like never before!`,
+  title: "VidMod - Free Unlimited File Converter | Image, Video, and Audio",
+  description: `Unleash your creativity with VidMod – the ultimate online tool for free and unlimited multimedia conversion. Effortlessly transform images, audio, and videos without restrictions. Start converting now and elevate your content like never before!`,
   creator: "ScissorHands26",
-  keywords:
-    "image converter, video converter, audio converter, unlimited image converter, unlimited video converter",
+  keywords: [
+    "image converter",
+    "video converter",
+    "audio converter",
+    "unlimited image converter",
+    "unlimited video converter",
+    "free file converter",
+    "multimedia conversion",
+  ].join(", "),
+  openGraph: {
+    title: "VidMod - Free Unlimited File Converter",
+    description: `Unleash your creativity with VidMod – the ultimate online tool for free and unlimited multimedia conversion. Transform images, audio, and videos effortlessly, without restrictions.`,
+    url: "https://vidmod.io",
+    type: "website",
+    images: [
+      {
+        url: "https://vidmod.io/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "VidMod - Free Unlimited File Converter",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "VidMod - Free Unlimited File Converter",
+    description: `Unleash your creativity with VidMod – the ultimate online tool for free and unlimited multimedia conversion. Transform images, audio, and videos effortlessly, without restrictions.`,
+    creator: "@ScissorHands26",
+    images: [
+      {
+        url: "https://vidmod.io",
+        alt: "VidMod - Free Unlimited File Converter",
+      },
+    ],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({
@@ -33,7 +67,7 @@ export default function RootLayout({
         > */}
         {/* <Navbar /> */}
 
-        <div className="pt-32 min-h-screen lg:pt-36 2xl:pt-44 container max-w-4xl lg:max-w-6xl 2xl:max-w-7xl">
+        <div className="container min-h-screen max-w-4xl pt-32 lg:max-w-6xl lg:pt-36 2xl:max-w-7xl 2xl:pt-44">
           {children}
         </div>
         <Toaster />
