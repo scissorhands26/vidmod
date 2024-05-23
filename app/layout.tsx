@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "https://vidmod.io/og-image.jpg",
+        url: "https://vidmod.io/images/vidmod_home_large.png",
         width: 1200,
         height: 630,
         alt: "VidMod - Free Unlimited File Converter",
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     creator: "@ScissorHands26",
     images: [
       {
-        url: "https://vidmod.io",
+        url: "https://vidmod.io/images/vidmod_home_large.png",
         alt: "VidMod - Free Unlimited File Converter",
       },
     ],
